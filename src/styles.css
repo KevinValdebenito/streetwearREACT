@@ -689,10 +689,12 @@ footer {
   text-transform: uppercase;
 }
 
-/* Responsive layout */
+
 @media (max-width: 760px) {
   .site-header {
+    position: static;
     flex-wrap: wrap;
+    gap: 1rem;
     padding: 1rem 4vw;
   }
 
