@@ -14,13 +14,13 @@ const seedProducts = [
 
 const STORAGE_KEY = 'valde-products-v2'
 
+
 export function getProducts() {
   const products = readStorage(STORAGE_KEY, null)
-  if (!products) return seedProducts
-  const newProducts = seedProducts.filter((seedProduct) => (
-    seedProduct.id >= 10 && !products.some((product) => product.id === seedProduct.id)
-  ))
-  return newProducts.length ? saveProducts([...products, ...newProducts]) : products
+  if (!products) {
+    return seedProducts
+  }
+  return products
 }
 
 function saveProducts(products) {
