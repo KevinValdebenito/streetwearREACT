@@ -201,7 +201,7 @@ export default function App() {
       <Header cartCount={cartCount} onNavigate={navigate} user={user} />
       <main>{content}</main>
       <footer>
-        <span>VALDE SKATE CO.</span>
+        <span>STREETWEAR SKATE CO.</span>
         <span>Hecho para rodar.</span>
         <span>© 2026</span>
       </footer>

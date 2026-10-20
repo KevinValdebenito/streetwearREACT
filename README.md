@@ -1,5 +1,6 @@
-# Valde Skate Store
+# StreetWear Skate Store
 
+https://streetwearreact.vercel.app/
 Tienda online migrada desde HTML/CSS a React con Vite para la Evaluación Parcial 2 de DSY1104.
 
 ## Funcionalidades
@@ -27,9 +28,14 @@ src/
 └── utils/       # Utilidades compartidas
 ```
 
-La versión anterior en HTML fue retirada; la aplicación actual se ejecuta exclusivamente con React y Vite.
-- Diseño responsive para móvil, tablet y escritorio.
-- 33 pruebas unitarias con Vitest y Testing Library, con 91,17% de cobertura de statements.
+## La versión anterior en HTML fue retirada; la aplicación actual se ejecuta exclusivamente con React y Vite.
+
+## Calidad
+
+Diseño responsive para móvil, tablet y escritorio.
+33 pruebas con Vitest y Testing Library, todas aprobadas.
+Cobertura real: 86,04 % statements, 83,43 % branches, 74,68 % funciones, 86,04 % líneas. Detalle en DOCUMENTO-COBERTURA-TESTING.md.
+Requisitos y arquitectura en ERS-V2.md.
 
 ## Comandos
 
@@ -40,6 +46,10 @@ npm test
 npm run coverage
 npm run build
 ```
+
+## Despliegue
+
+Publicado en Vercel con el preset Vite (comando de build npm run build, directorio de salida dist).
 
 ## Accesos demo
 
