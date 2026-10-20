@@ -689,10 +689,12 @@ footer {
   text-transform: uppercase;
 }
 
-/* Responsive layout */
+
 @media (max-width: 760px) {
   .site-header {
+    position: static;
     flex-wrap: wrap;
+    gap: 1rem;
     padding: 1rem 4vw;
   }
 
@@ -768,5 +770,23 @@ footer {
   footer {
     flex-direction: column;
     gap: 0.6rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .site-header {
+    position: static;
+  }
+
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-row {
+    flex-wrap: wrap;
+  }
+
+  .admin-row > span:nth-child(2) {
+    white-space: normal;
   }
 }
