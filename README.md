@@ -1,7 +1,5 @@
 # CAOS Skate Store
 
-https://streetwearreact.vercel.app/
-Tienda online migrada desde HTML/CSS a React con Vite para la Evaluación Parcial 2 de DSY1104.
 
 ## Funcionalidades
 
@@ -34,7 +32,7 @@ src/
 
 Diseño responsive para móvil, tablet y escritorio.
 33 pruebas con Vitest y Testing Library, todas aprobadas.
-Cobertura real: 86,04 % statements, 83,43 % branches, 74,68 % funciones, 86,04 % líneas. Detalle en DOCUMENTO-COBERTURA-TESTING.md.
+Cobertura real: 82,19 % statements, 83,13 % branches, 73,75 % funciones, 82,19 % líneas. Detalle en DOCUMENTO-COBERTURA-TESTING.md.
 Requisitos y arquitectura en ERS-V2.md.
 
 ## Comandos
@@ -47,16 +45,13 @@ npm run coverage
 npm run build
 ```
 
-## Despliegue
-
-Publicado en Vercel con el preset Vite (comando de build npm run build, directorio de salida dist).
 
 ## Accesos demo
 
-- Correo: `admin@Streetwearskate.cl`
-- Perfil: administrador
-- Correo: `empleado@Streetwearskate.cl`
-- Perfil: empleado
-- Correo: `cliente@Streetwearskate.cl`
-- Perfil: cliente
-- Contraseña: `Streetwear2026!`
+Correo: admin@caos.cl
+Perfil: administrador
+Correo: empleado@caos.cl
+Perfil: empleado
+Correo: cliente@caos.cl
+Perfil: cliente
+Contraseña: CAOS2026!
