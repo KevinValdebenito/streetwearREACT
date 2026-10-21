@@ -14,7 +14,7 @@ import { readStorage, removeStorage, writeStorage } from './data/storage'
 import { Catalog } from './pages/Catalog'
 import { Home } from './pages/Home'
 
-const cartKey = 'valde-cart'
+const cartKey = 'CAOS-cart'
 
 export default function App() {
   const [products, setProducts] = useState(getProducts)
@@ -23,7 +23,7 @@ export default function App() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('Todas')
   const [order, setOrder] = useState(null)
-  const [user, setUser] = useState(() => readStorage('valde-user', null))
+  const [user, setUser] = useState(() => readStorage('CAOS-user', null))
   const [orders, setOrders] = useState(getOrders)
 
   useEffect(() => {
@@ -102,13 +102,13 @@ export default function App() {
 
   const handleLogin = (nextUser) => {
     setUser(nextUser)
-    writeStorage('valde-user', nextUser)
+    writeStorage('CAOS-user', nextUser)
     setView(nextUser.role)
   }
 
   const logout = () => {
     setUser(null)
-    removeStorage('valde-user')
+    removeStorage('CAOS-user')
     setView('home')
   }
 
@@ -201,7 +201,7 @@ export default function App() {
       <Header cartCount={cartCount} onNavigate={navigate} user={user} />
       <main>{content}</main>
       <footer>
-        <span>VALDE SKATE CO.</span>
+        <span>CAOS SKATE CO.</span>
         <span>Hecho para rodar.</span>
         <span>© 2026</span>
       </footer>

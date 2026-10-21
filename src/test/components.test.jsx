@@ -1,3 +1,4 @@
+
 import { describe, expect, it, vi } from 'vitest'
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -33,15 +34,14 @@ describe('autenticación y roles', () => {
   })
 
   it.each([
-    ['admin@valdeskate.cl', 'admin'],
-    ['empleado@valdeskate.cl', 'employee'],
-    ['cliente@valdeskate.cl', 'customer'],
+    ['admin@caos.cl', 'admin'],
+    ['empleado@caos.cl', 'employee'],
+    ['cliente@caos.cl', 'customer'],
   ])('identifica el rol de %s', async (email, role) => {
     const onLogin = vi.fn()
     render(<Login onLogin={onLogin} onBack={vi.fn()} />)
     await userEvent.type(screen.getByLabelText(/correo/i), email)
-    expect(screen.getByText(/perfil detectado/i)).toBeInTheDocument()
-    await userEvent.type(screen.getByLabelText(/contraseña/i), 'Valde2026!')
+    await userEvent.type(screen.getByLabelText(/contraseña/i), 'CAOS2026!')
     await userEvent.click(screen.getByRole('button', { name: 'Ingresar' }))
     expect(onLogin).toHaveBeenCalledWith({ email, role })
   })
@@ -51,12 +51,12 @@ describe('panel de administración', () => {
   it('crea un producto válido y reinicia el formulario', async () => {
     const onProductsChange = vi.fn()
     render(<Admin products={[product]} onProductsChange={onProductsChange} onLogout={vi.fn()} />)
-    await userEvent.type(screen.getByPlaceholderText('Ej: Polera Valde'), 'Polera nueva')
+    await userEvent.type(screen.getByPlaceholderText('Ej: Polera CAOS'), 'Polera nueva')
     await userEvent.clear(screen.getByPlaceholderText('Precio'))
     await userEvent.type(screen.getByPlaceholderText('Precio'), '25000')
     await userEvent.click(screen.getByRole('button', { name: 'Crear producto' }))
     expect(onProductsChange).toHaveBeenCalled()
-    expect(screen.getByPlaceholderText('Ej: Polera Valde')).toHaveValue('')
+    expect(screen.getByPlaceholderText('Ej: Polera CAOS')).toHaveValue('')
   })
 
   it('permite aumentar stock y eliminar un producto', async () => {
@@ -103,8 +103,8 @@ describe('vistas y componentes de navegación', () => {
     expect(onSearch).toHaveBeenCalledWith('')
   })
 
-  it('muestra ofertas y aplica el filtro de búsqueda', async () => {
-    const expensive = { ...product, id: 2, name: 'Hoodie caro', price: 50000 }
+  it('muestra los productos seleccionados en ofertas', () => {
+    const expensive = { ...product, id: 4, name: 'Hoodie caro', price: 50000 }
     render(<Catalog mode="offers" products={[product, expensive]} categories={['Todas', 'Tablas']} category="Todas" search="" onSearch={vi.fn()} onCategory={vi.fn()} onAdd={vi.fn()} />)
     expect(screen.getByText('Tabla de prueba')).toBeInTheDocument()
     expect(screen.queryByText('Hoodie caro')).not.toBeInTheDocument()

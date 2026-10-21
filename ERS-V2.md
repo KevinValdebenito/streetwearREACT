@@ -1,4 +1,4 @@
-# ERS V2 — Valde Skate Store
+# ERS V2 — CAOS Skate Store
 
 ## Propósito
 

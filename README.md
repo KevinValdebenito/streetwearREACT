@@ -1,4 +1,4 @@
-# Valde Skate Store
+# CAOS Skate Store
 
 Tienda online migrada desde HTML/CSS a React con Vite para la Evaluación Parcial 2 de DSY1104.
 
@@ -43,10 +43,10 @@ npm run build
 
 ## Accesos demo
 
-- Correo: `admin@valdeskate.cl`
+- Correo: `admin@Streetwearskate.cl`
 - Perfil: administrador
-- Correo: `empleado@valdeskate.cl`
+- Correo: `empleado@Streetwearskate.cl`
 - Perfil: empleado
-- Correo: `cliente@valdeskate.cl`
+- Correo: `cliente@Streetwearskate.cl`
 - Perfil: cliente
-- Contraseña: `Valde2026!`
+- Contraseña: `Streetwear2026!`

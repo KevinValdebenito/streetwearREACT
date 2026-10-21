@@ -77,7 +77,7 @@ const save = (event) => {
           <label>
             Nombre
             <input
-              placeholder="Ej: Polera Valde"
+              placeholder="Ej: Polera CAOS"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
             />
