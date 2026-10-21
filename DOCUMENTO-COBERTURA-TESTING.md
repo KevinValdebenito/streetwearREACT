@@ -33,4 +33,16 @@ Archivos de prueba:
 - **78,66% de funciones**.
 - **91,17% de líneas**.
 
-Ejecutar `npm run coverage` para generar el reporte HTML en `coverage/`.
+## Análisis
+Los componentes (src/components) tienen 94,39 % de statements; la lógica de datos (src/data), páginas y utilidades están al 100 %.
+vite.config.js y src/main.jsx marcan 0 % porque son archivos de configuración y de arranque que las pruebas no importan. Bajan el promedio global.
+
+
+## Capturas
+
+Guardar las imágenes en docs/capturas/ y mantener estas referencias:
+Ejecución de pruebas (npm test) con 33/33 aprobadas: ![Pruebas](docs/capturas/01-npm-test.png)
+Salida de cobertura en consola (npm run coverage): ![Cobertura consola](docs/capturas/02-coverage-consola.png)
+Reporte HTML (coverage/index.html): ![Cobertura HTML](docs/capturas/03-coverage-html.png)
+
+Ejecutar `npm install`, `npm test` y `npm run coverage` para generar el reporte HTML en `coverage/`.
