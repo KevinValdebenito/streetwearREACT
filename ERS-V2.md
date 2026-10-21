@@ -1,4 +1,4 @@
-# ERS V2 — StreetWear Skate Store
+# ERS V2 — CAOS Skate Store
 
 ## Propósito
 
@@ -12,11 +12,11 @@ Aplicación web de una sola página (SPA) sin backend. Los datos viven en un cat
 
 Perfil	Correo demo	Acceso
 Visitante	    ->      Catálogo, carrito y checkout
-Cliente	        ->      cliente@valdeskate.cl	    Historial de sus compras
-Empleado	    ->      empleado@valdeskate.cl	    Panel de pedidos
-Administrador	->      admin@valdeskate.cl	        CRUD de productos
+Cliente	        ->      cliente@caos.cl	    Historial de sus compras
+Empleado	    ->      empleado@caos.cl	    Panel de pedidos
+Administrador	->      admin@caos.cl     CRUD de productos
 
-Contraseña demo para todos: Valde2026!. El perfil se detecta por el correo.
+Contraseña demo para todos: CAOS2026!. El perfil se detecta por el correo.
 
 ## Requisitos funcionales
 

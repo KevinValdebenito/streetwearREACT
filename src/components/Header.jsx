@@ -5,7 +5,7 @@ export function Header({ cartCount, onNavigate, user }) {
       <button className="brand" onClick={() => onNavigate('home')} aria-label="Ir al inicio">
       <video
         className="brand-logo"
-        src="/img/branding/logo-valde-transparente.webm"
+        src="/img/branding/logo-CAOS-transparente.webm"
         autoPlay
         muted
         loop

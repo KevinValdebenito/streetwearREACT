@@ -1,4 +1,4 @@
-# StreetWear Skate Store
+# CAOS Skate Store
 
 https://streetwearreact.vercel.app/
 Tienda online migrada desde HTML/CSS a React con Vite para la Evaluación Parcial 2 de DSY1104.
@@ -53,10 +53,10 @@ Publicado en Vercel con el preset Vite (comando de build npm run build, director
 
 ## Accesos demo
 
-- Correo: `admin@valdeskate.cl`
+- Correo: `admin@Streetwearskate.cl`
 - Perfil: administrador
-- Correo: `empleado@valdeskate.cl`
+- Correo: `empleado@Streetwearskate.cl`
 - Perfil: empleado
-- Correo: `cliente@valdeskate.cl`
+- Correo: `cliente@Streetwearskate.cl`
 - Perfil: cliente
-- Contraseña: `Valde2026!`
+- Contraseña: `Streetwear2026!`
