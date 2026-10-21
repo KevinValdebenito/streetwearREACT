@@ -701,6 +701,7 @@ footer {
   .brand-logo {
     width: 4.8rem;
     height: 4.2rem;
+    mix-blend-mode: multiply;
   }
 
   .brand-copy strong {
