@@ -27,6 +27,7 @@ Contraseña demo para todos: CAOS2026!. El perfil se detecta por el correo.
 5. El sistema valida campos obligatorios y muestra confirmación de compra.
 6. El administrador puede crear, actualizar stock y eliminar productos.
 7. Los productos y el carrito persisten mediante `localStorage`.
+8. El administrador puede marcar productos como destacados para controlar las ofertas.
 
 ## Requisitos no funcionales
 
@@ -47,7 +48,9 @@ Se agregó panel de empleado para actualizar estados de pedidos.
 Se agregó historial de compras para clientes.
 La compra descuenta stock y genera un pedido persistente.
 Se agregó carrusel urbano y logo animado en el encabezado.
-Se amplió la suite de pruebas a 33 casos y se midió la cobertura real.
+Se agregó validación visible en el formulario administrativo y recuperación ante datos corruptos de `localStorage`.
+Se ampliaron las ofertas para utilizar la propiedad `featured` de cada producto.
+Se amplió la suite de pruebas a 36 casos y se midió la cobertura real.
 La versión HTML fue retirada; la aplicación se ejecuta solo con React y Vite.
 
 ## Limitaciones conocidas

@@ -3,13 +3,18 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: process.env.GITHUB_ACTIONS ? '/streetwearREACT/' : '/',
   test: {
     environment: 'jsdom',
     setupFiles: './src/test/setup.js',
     coverage: {
       reporter: ['text', 'html'],
-      exclude: ['src/test/**']
+      exclude: [
+        'src/test/**',
+        'dist/**',
+        'coverage/**',
+        'vite.config.js',
+        'src/main.jsx'
+      ]
     }
   }
 })
