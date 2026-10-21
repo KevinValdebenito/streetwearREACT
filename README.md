@@ -45,6 +45,12 @@ npm run coverage
 npm run build
 ```
 
+## Despliegue
+
+La aplicación está publicada en GitHub Pages:
+
+https://kevinvaldebenito.github.io/streetwearREACT/
+
 
 ## Accesos demo
 
