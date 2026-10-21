@@ -59,6 +59,29 @@ describe('panel de administración', () => {
     expect(screen.getByPlaceholderText('Ej: Polera CAOS')).toHaveValue('')
   })
 
+  it('muestra un error cuando el producto no tiene nombre', async () => {
+    const onProductsChange = vi.fn()
+    render(<Admin products={[product]} onProductsChange={onProductsChange} onLogout={vi.fn()} />)
+    await userEvent.clear(screen.getByPlaceholderText('Precio'))
+    await userEvent.type(screen.getByPlaceholderText('Precio'), '25000')
+    await userEvent.click(screen.getByRole('button', { name: 'Crear producto' }))
+    expect(screen.getByRole('alert')).toHaveTextContent(/nombre es obligatorio/i)
+    expect(onProductsChange).not.toHaveBeenCalled()
+  })
+
+  it('permite marcar un producto como destacado', async () => {
+    const onProductsChange = vi.fn()
+    render(<Admin products={[product]} onProductsChange={onProductsChange} onLogout={vi.fn()} />)
+    await userEvent.type(screen.getByPlaceholderText('Ej: Polera CAOS'), 'Polera nueva')
+    await userEvent.clear(screen.getByPlaceholderText('Precio'))
+    await userEvent.type(screen.getByPlaceholderText('Precio'), '25000')
+    await userEvent.click(screen.getByLabelText(/ofertas y destacados/i))
+    await userEvent.click(screen.getByRole('button', { name: 'Crear producto' }))
+    expect(onProductsChange).toHaveBeenCalledWith(expect.arrayContaining([
+      expect.objectContaining({ featured: true })
+    ]))
+  })
+
   it('permite aumentar stock y eliminar un producto', async () => {
     const onProductsChange = vi.fn()
     render(<Admin products={[product]} onProductsChange={onProductsChange} onLogout={vi.fn()} />)
@@ -103,8 +126,8 @@ describe('vistas y componentes de navegación', () => {
     expect(onSearch).toHaveBeenCalledWith('')
   })
 
-  it('muestra los productos seleccionados en ofertas', () => {
-    const expensive = { ...product, id: 4, name: 'Hoodie caro', price: 50000 }
+  it('muestra solo productos destacados en ofertas', () => {
+    const expensive = { ...product, id: 4, name: 'Hoodie caro', price: 50000, featured: false }
     render(<Catalog mode="offers" products={[product, expensive]} categories={['Todas', 'Tablas']} category="Todas" search="" onSearch={vi.fn()} onCategory={vi.fn()} onAdd={vi.fn()} />)
     expect(screen.getByText('Tabla de prueba')).toBeInTheDocument()
     expect(screen.queryByText('Hoodie caro')).not.toBeInTheDocument()

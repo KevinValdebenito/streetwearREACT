@@ -1,6 +1,5 @@
 # CAOS Skate Store
 
-
 ## Funcionalidades
 
 - Catálogo de productos con búsqueda, categorías y ofertas.
@@ -31,8 +30,8 @@ src/
 ## Calidad
 
 Diseño responsive para móvil, tablet y escritorio.
-33 pruebas con Vitest y Testing Library, todas aprobadas.
-Cobertura real: 82,19 % statements, 83,13 % branches, 73,75 % funciones, 82,19 % líneas. Detalle en DOCUMENTO-COBERTURA-TESTING.md.
+36 pruebas con Vitest y Testing Library, todas aprobadas.
+Cobertura real: 88,45 % statements, 84,83 % branches, 76,92 % funciones, 88,45 % líneas. Detalle en DOCUMENTO-COBERTURA-TESTING.md.
 Requisitos y arquitectura en ERS-V2.md.
 
 ## Comandos
@@ -47,9 +46,9 @@ npm run build
 
 ## Despliegue
 
-La aplicación está publicada en GitHub Pages:
+La aplicación está publicada en Vercel:
 
-https://kevinvaldebenito.github.io/streetwearREACT/
+https://streetwear-react.vercel.app
 
 
 ## Accesos demo

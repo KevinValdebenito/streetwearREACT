@@ -6,7 +6,7 @@ El proyecto utiliza Vitest como runner, `jsdom` para simular el navegador y Reac
 
 ## Alcance
 
-La suite contiene 33 pruebas distribuidas en tres archivos:
+La suite contiene 36 pruebas distribuidas en tres archivos:
 
 | Área | Casos cubiertos |
 | --- | --- |
@@ -27,27 +27,25 @@ Archivos de prueba:
 
 Últimos resultados validados:
 
-- **33/33 pruebas exitosas**.
-- **82,19 % de statements**.
-- **83,13 % de branches**.
-- **73,75 % de funciones**.
-- **82,19 % de líneas**.
+- **36/36 pruebas exitosas**.
+- **88,45 % de statements**.
+- **84,83 % de branches**.
+- **76,92 % de funciones**.
+- **88,45 % de líneas**.
 
 ## Análisis
 
-Los componentes (`src/components`) tienen 94,69 % de cobertura de statements. La lógica de datos (`src/data`) alcanza 100 % de statements y 95,83 % de branches. Las páginas (`src/pages`) y utilidades (`src/utils`) presentan 100 % en las cuatro métricas.
+Los componentes (`src/components`) tienen 93,65 % de cobertura de statements. La lógica de datos (`src/data`) alcanza 100 % de statements y 96 % de branches. Las páginas (`src/pages`) y utilidades (`src/utils`) presentan 100 % en las cuatro métricas.
 
-El archivo `src/App.jsx` alcanza 63,35 % de statements, mientras que `src/main.jsx`, `vite.config.js` y el archivo generado dentro de `dist/assets` aparecen con 0 % porque no fueron ejecutados durante las pruebas.
+El archivo `src/App.jsx` alcanza 63,35 % de statements. Los archivos de arranque, configuración, pruebas y salida generada se excluyen del cálculo porque no representan lógica de negocio ejecutable durante las pruebas.
 
-Estos archivos con cobertura de 0 % afectan el promedio global. En particular, `dist/assets` contiene código generado por Vite que debería excluirse de una medición enfocada en el código fuente.
-
-Las pruebas permiten verificar funcionalidades principales como autenticación, catálogo, administración, carrito, compras y persistencia de datos.
+Las pruebas verifican renderizado, props, estado, eventos, autenticación, catálogo, administración, ofertas, carrito, compras, persistencia y recuperación ante datos inválidos en `localStorage`.
 
 ## Capturas
 
 Guardar las imágenes en `docs/capturas/` y mantener estas referencias:
 
-Ejecución de pruebas (`npm test`) con 33/33 aprobadas:
+Ejecución de pruebas (`npm test`) con 36/36 aprobadas:
 
 ![Pruebas](docs/capturas/01-npm-test.png)
 

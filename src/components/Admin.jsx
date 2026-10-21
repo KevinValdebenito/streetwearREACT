@@ -15,30 +15,45 @@ const empty = {
 export function Admin({ products, onProductsChange, onLogout }) {
   const [form, setForm] = useState(empty)
   const [editingId, setEditingId] = useState(null)
+  const [error, setError] = useState('')
 
 
-const save = (event) => {
-  event.preventDefault()
+  const save = (event) => {
+    event.preventDefault()
 
-  if (!form.name.trim() || Number(form.price) <= 0 || Number(form.stock) < 0) return
+    if (!form.name.trim()) {
+      setError('El nombre es obligatorio.')
+      return
+    }
 
-  const productData = {
-    ...form,
-    name: form.name.trim(),
-    price: Number(form.price),
-    stock: Number(form.stock)
+    if (Number(form.price) <= 0) {
+      setError('El precio debe ser mayor que cero.')
+      return
+    }
+
+    if (Number(form.stock) < 0) {
+      setError('El stock no puede ser negativo.')
+      return
+    }
+
+    setError('')
+
+    const productData = {
+      ...form,
+      name: form.name.trim(),
+      price: Number(form.price),
+      stock: Number(form.stock)
+    }
+
+    if (editingId !== null) {
+      onProductsChange(updateProduct(editingId, productData))
+    } else {
+      onProductsChange(createProduct(productData))
+    }
+
+    setForm(empty)
+    setEditingId(null)
   }
-
-  if (editingId !== null) {
-    onProductsChange(updateProduct(editingId, productData))
-  } else {
-    onProductsChange(createProduct(productData))
-  }
-
-  setForm(empty)
-  setEditingId(null)
-}
-
 
   const editProduct = (product) => {
     setEditingId(product.id)
@@ -73,6 +88,7 @@ const save = (event) => {
       <div className="admin-layout">
         <form className="admin-form" onSubmit={save}>
           <h2>{editingId !== null ? 'Editar producto' : 'Nuevo producto'}</h2>
+          {error && <p className="error-message" role="alert">{error}</p>}
 
           <label>
             Nombre
@@ -125,6 +141,15 @@ const save = (event) => {
               value={form.image}
               onChange={(e) => setForm({ ...form, image: e.target.value })}
             />
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              checked={form.featured}
+              onChange={(e) => setForm({ ...form, featured: e.target.checked })}
+            />
+            Mostrar en ofertas y destacados
           </label>
 
           <button type="submit">
