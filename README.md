@@ -9,6 +9,11 @@
 - Login general por correo con perfiles de administrador, empleado y cliente.
 - Panel de empleado para revisar y actualizar el estado de pedidos.
 - Historial de compras para clientes.
+- Navegación con rutas mediante React Router.
+- Enlaces activos con `NavLink`, página 404 y detalle dinámico en `/productos/:id`.
+- Rutas privadas centralizadas mediante `ProtectedRoute`.
+- Pantallas grandes divididas en subcomponentes reutilizables (`AdminForm`, `AdminProductList`, `CartItem`, `CartSummary`, `CheckoutForm` y `OrderSummary`).
+- Confirmación antes de eliminar artículos o productos.
 
 ## Estructura principal
 
@@ -30,8 +35,8 @@ src/
 ## Calidad
 
 Diseño responsive para móvil, tablet y escritorio.
-36 pruebas con Vitest y Testing Library, todas aprobadas.
-Cobertura real: 88,45 % statements, 84,83 % branches, 76,92 % funciones, 88,45 % líneas. Detalle en DOCUMENTO-COBERTURA-TESTING.md.
+43 pruebas con Vitest y Testing Library, todas aprobadas.
+Cobertura real: 90,79 % statements, 84,26 % branches, 75 % funciones, 90,79 % líneas. Detalle en DOCUMENTO-COBERTURA-TESTING.md.
 Requisitos y arquitectura en ERS-V2.md.
 
 ## Comandos
