@@ -6,7 +6,7 @@ El proyecto utiliza Vitest como runner, `jsdom` para simular el navegador y Reac
 
 ## Alcance
 
-La suite contiene 36 pruebas distribuidas en tres archivos:
+La suite contiene 43 pruebas distribuidas en cuatro archivos:
 
 | Área | Casos cubiertos |
 | --- | --- |
@@ -24,28 +24,29 @@ Archivos de prueba:
 - `src/test/app.test.jsx`: flujos principales de la tienda.
 - `src/test/components.test.jsx`: componentes, roles y vistas.
 - `src/test/data.test.js`: persistencia y operaciones de productos/pedidos.
+- `src/test/routing.test.jsx`: enlaces activos, detalle dinámico, protección de rutas, 404 y redirecciones.
 
 Últimos resultados validados:
 
-- **36/36 pruebas exitosas**.
-- **88,45 % de statements**.
-- **84,83 % de branches**.
-- **76,92 % de funciones**.
-- **88,45 % de líneas**.
+- **43/43 pruebas exitosas**.
+- **90,63 % de statements**.
+- **88,20 % de branches**.
+- **77,52 % de funciones**.
+- **90,63 % de líneas**.
 
 ## Análisis
 
-Los componentes (`src/components`) tienen 93,65 % de cobertura de statements. La lógica de datos (`src/data`) alcanza 100 % de statements y 96 % de branches. Las páginas (`src/pages`) y utilidades (`src/utils`) presentan 100 % en las cuatro métricas.
+Los componentes (`src/components`) tienen 93,06 % de cobertura de statements. La lógica de datos (`src/data`) alcanza 100 % de statements y 96 % de branches. Las páginas (`src/pages`) alcanzan 93,57 % de statements y las utilidades (`src/utils`) presentan 100 % en las cuatro métricas.
 
-El archivo `src/App.jsx` alcanza 63,35 % de statements. Los archivos de arranque, configuración, pruebas y salida generada se excluyen del cálculo porque no representan lógica de negocio ejecutable durante las pruebas.
+El archivo `src/App.jsx` alcanza 79,78 % de statements. Los archivos de arranque, configuración, pruebas y salida generada se excluyen del cálculo porque no representan lógica de negocio ejecutable durante las pruebas.
 
-Las pruebas verifican renderizado, props, estado, eventos, autenticación, catálogo, administración, ofertas, carrito, compras, persistencia y recuperación ante datos inválidos en `localStorage`.
+Las pruebas verifican renderizado, props, estado, eventos, autenticación, navegación con React Router, enlaces activos, detalle dinámico, rutas privadas, página 404, catálogo, administración, confirmación de eliminaciones, ofertas, carrito, compras, persistencia y recuperación ante datos inválidos en `localStorage`.
 
 ## Capturas
 
 Guardar las imágenes en `docs/capturas/` y mantener estas referencias:
 
-Ejecución de pruebas (`npm test`) con 36/36 aprobadas:
+Ejecución de pruebas (`npm test`) con 43/43 aprobadas:
 
 ![Pruebas](docs/capturas/01-npm-test.png)
 

@@ -2,6 +2,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { MemoryRouter } from 'react-router-dom'
 import { Admin } from '../components/Admin'
 import { Cart } from '../components/Cart'
 import { CustomerOrders } from '../components/CustomerOrders'
@@ -89,6 +90,14 @@ describe('panel de administración', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Eliminar' }))
     expect(onProductsChange).toHaveBeenCalledTimes(2)
   })
+
+  it('cancela la eliminación si no se confirma', async () => {
+    const onProductsChange = vi.fn()
+    vi.spyOn(window, 'confirm').mockReturnValue(false)
+    render(<Admin products={[product]} onProductsChange={onProductsChange} onLogout={vi.fn()} />)
+    await userEvent.click(screen.getByRole('button', { name: 'Eliminar' }))
+    expect(onProductsChange).not.toHaveBeenCalled()
+  })
 })
 
 describe('operación y cuenta', () => {
@@ -128,26 +137,21 @@ describe('vistas y componentes de navegación', () => {
 
   it('muestra solo productos destacados en ofertas', () => {
     const expensive = { ...product, id: 4, name: 'Hoodie caro', price: 50000, featured: false }
-    render(<Catalog mode="offers" products={[product, expensive]} categories={['Todas', 'Tablas']} category="Todas" search="" onSearch={vi.fn()} onCategory={vi.fn()} onAdd={vi.fn()} />)
+    render(<MemoryRouter><Catalog mode="offers" products={[product, expensive]} categories={['Todas', 'Tablas']} category="Todas" search="" onSearch={vi.fn()} onCategory={vi.fn()} onAdd={vi.fn()} /></MemoryRouter>)
     expect(screen.getByText('Tabla de prueba')).toBeInTheDocument()
     expect(screen.queryByText('Hoodie caro')).not.toBeInTheDocument()
   })
 
   it('permite volver al inicio desde el encabezado', async () => {
-    const onNavigate = vi.fn()
-    render(<Header cartCount={2} onNavigate={onNavigate} user={null} />)
-    await userEvent.click(screen.getByRole('button', { name: 'Ir al inicio' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Ingresar' }))
-    expect(onNavigate).toHaveBeenNthCalledWith(1, 'home')
-    expect(onNavigate).toHaveBeenNthCalledWith(2, 'login')
+    render(<MemoryRouter><Header cartCount={2} user={null} /></MemoryRouter>)
+    expect(screen.getByRole('link', { name: 'Ir al inicio' })).toHaveAttribute('href', '/')
+    expect(screen.getByRole('link', { name: 'Ingresar' })).toHaveAttribute('href', '/login')
     expect(screen.getByLabelText(/abrir carrito/i)).toHaveTextContent('2')
   })
 
   it('navega a productos desde la portada', async () => {
-    const onNavigate = vi.fn()
-    render(<Home products={[product]} onAdd={vi.fn()} onNavigate={onNavigate} />)
-    await userEvent.click(screen.getByRole('button', { name: /explorar productos/i }))
-    expect(onNavigate).toHaveBeenCalledWith('products')
+    render(<MemoryRouter><Home products={[product]} onAdd={vi.fn()} /></MemoryRouter>)
+    expect(screen.getByRole('link', { name: /explorar productos/i })).toHaveAttribute('href', '/productos')
   })
 })
 

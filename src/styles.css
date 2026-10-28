@@ -80,6 +80,7 @@ nav {
 }
 
 nav button,
+nav a,
 .cart-button {
   color: inherit;
   font-size: 0.75rem;
@@ -87,6 +88,39 @@ nav button,
   text-transform: uppercase;
   background: none;
   border: 0;
+  text-decoration: none;
+}
+
+nav a.active {
+  text-decoration: underline;
+  text-underline-offset: 0.35rem;
+}
+
+.button-link {
+  display: inline-block;
+  padding: 0.8rem 1rem;
+  color: #191919;
+  font-weight: 800;
+  text-decoration: none;
+  text-transform: uppercase;
+  background: #f4f1eb;
+}
+
+.product-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: start;
+}
+
+.product-detail > img {
+  width: 100%;
+  max-height: 34rem;
+  object-fit: cover;
+}
+
+.product-detail .product-card {
+  margin-top: 2rem;
 }
 
 nav button:hover,
@@ -715,6 +749,10 @@ footer {
     order: 3;
     width: 100%;
     justify-content: space-between;
+  }
+
+  .product-detail {
+    grid-template-columns: 1fr;
   }
 
   .hero,

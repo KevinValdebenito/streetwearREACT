@@ -39,7 +39,7 @@ Contraseña demo para todos: CAOS2026!. El perfil se detecta por el correo.
 
 ## Arquitectura
 
-`App` coordina navegación y estado global del carrito. `ProductCard`, `ProductGrid`, `Cart`, `Checkout`, `Result` y `Admin` encapsulan las vistas. `src/data/products.js` implementa CRUD sobre la fuente de datos simulada.
+`App` coordina el estado global del carrito y React Router define las rutas de la aplicación. Las entradas de `src/pages` representan vistas completas y utilizan componentes de `src/components` para la interfaz reutilizable. `src/data/products.js` implementa CRUD sobre la fuente de datos simulada.
 
 ## Cambios respecto de la versión anterior
 
@@ -50,7 +50,9 @@ La compra descuenta stock y genera un pedido persistente.
 Se agregó carrusel urbano y logo animado en el encabezado.
 Se agregó validación visible en el formulario administrativo y recuperación ante datos corruptos de `localStorage`.
 Se ampliaron las ofertas para utilizar la propiedad `featured` de cada producto.
-Se amplió la suite de pruebas a 36 casos y se midió la cobertura real.
+Se agregó confirmación antes de eliminar artículos del carrito y productos del panel administrativo.
+Se incorporó React Router para navegar mediante rutas reales.
+Se ampliaron las vistas completas dentro de `src/pages` y la suite de pruebas a 37 casos.
 La versión HTML fue retirada; la aplicación se ejecuta solo con React y Vite.
 
 ## Limitaciones conocidas
