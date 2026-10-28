@@ -16,16 +16,19 @@ export function ProductDetailPage({ products, onAdd }) {
 
   return (
     <section className="page-section">
-      <Link className="back-link" to="/productos">← Volver a productos</Link>
+      <Link className="back-link" to="/productos">
+        <span aria-hidden="true">←</span> Volver
+      </Link>
       <div className="product-detail">
         <img src={product.image} alt={product.name} />
-        <div>
+        <div className="product-detail-info">
           <small>{product.category}</small>
           <h1>{product.name}</h1>
           <strong>{formatPrice(product.price)}</strong>
           <p>{product.description || 'Producto seleccionado de la colección CAOS.'}</p>
-          <button onClick={() => onAdd(product)} disabled={product.stock === 0}>
+          <button className="detail-add-button" onClick={() => onAdd(product)} disabled={product.stock === 0}>
             {product.stock === 0 ? 'Agotado' : 'Agregar al carrito'}
+            <span aria-hidden="true">→</span>
           </button>
         </div>
       </div>
