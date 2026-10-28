@@ -1,7 +1,8 @@
 
 import { useState } from 'react'
-import { createProduct, deleteProduct, updateProduct } from '../data/products'
-import { formatPrice } from '../utils/format'
+import { createProduct, updateProduct } from '../data/products'
+import { AdminForm } from './AdminForm'
+import { AdminProductList } from './AdminProductList'
 
 const empty = {
   name: '',
@@ -15,30 +16,45 @@ const empty = {
 export function Admin({ products, onProductsChange, onLogout }) {
   const [form, setForm] = useState(empty)
   const [editingId, setEditingId] = useState(null)
+  const [error, setError] = useState('')
 
 
-const save = (event) => {
-  event.preventDefault()
+  const save = (event) => {
+    event.preventDefault()
 
-  if (!form.name.trim() || Number(form.price) <= 0 || Number(form.stock) < 0) return
+    if (!form.name.trim()) {
+      setError('El nombre es obligatorio.')
+      return
+    }
 
-  const productData = {
-    ...form,
-    name: form.name.trim(),
-    price: Number(form.price),
-    stock: Number(form.stock)
+    if (Number(form.price) <= 0) {
+      setError('El precio debe ser mayor que cero.')
+      return
+    }
+
+    if (Number(form.stock) < 0) {
+      setError('El stock no puede ser negativo.')
+      return
+    }
+
+    setError('')
+
+    const productData = {
+      ...form,
+      name: form.name.trim(),
+      price: Number(form.price),
+      stock: Number(form.stock)
+    }
+
+    if (editingId !== null) {
+      onProductsChange(updateProduct(editingId, productData))
+    } else {
+      onProductsChange(createProduct(productData))
+    }
+
+    setForm(empty)
+    setEditingId(null)
   }
-
-  if (editingId !== null) {
-    onProductsChange(updateProduct(editingId, productData))
-  } else {
-    onProductsChange(createProduct(productData))
-  }
-
-  setForm(empty)
-  setEditingId(null)
-}
-
 
   const editProduct = (product) => {
     setEditingId(product.id)
@@ -71,110 +87,15 @@ const save = (event) => {
       </div>
 
       <div className="admin-layout">
-        <form className="admin-form" onSubmit={save}>
-          <h2>{editingId !== null ? 'Editar producto' : 'Nuevo producto'}</h2>
-
-          <label>
-            Nombre
-            <input
-              placeholder="Ej: Polera Valde"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-            />
-          </label>
-
-          <label>
-            Categoría
-            <select
-              value={form.category}
-              onChange={(e) => setForm({ ...form, category: e.target.value })}
-            >
-              <option>Ropa</option>
-              <option>Tablas</option>
-              <option>Accesorios</option>
-              <option>Calzado</option>
-            </select>
-          </label>
-
-          <label>
-            Precio
-            <input
-              type="number"
-              min="1"
-              placeholder="Precio"
-              value={form.price}
-              onChange={(e) => setForm({ ...form, price: e.target.value })}
-            />
-          </label>
-
-          <label>
-            Stock
-            <input
-              type="number"
-              min="0"
-              placeholder="Stock"
-              value={form.stock}
-              onChange={(e) => setForm({ ...form, stock: e.target.value })}
-            />
-          </label>
-
-          <label>
-            Imagen (ruta)
-            <input
-              placeholder="/img/productos/imagen.webp"
-              value={form.image}
-              onChange={(e) => setForm({ ...form, image: e.target.value })}
-            />
-          </label>
-
-          <button type="submit">
-            {editingId !== null ? 'Guardar cambios' : 'Crear producto'}
-          </button>
-
-          {editingId !== null && (
-            <button type="button" onClick={cancelEdit}>
-              Cancelar edición
-            </button>
-          )}
-        </form>
-
-        <div className="admin-list">
-          <h2>Productos existentes <span>({products.length})</span></h2>
-
-          {products.map((product) => (
-            <div className="admin-row" key={product.id}>
-              <span className="admin-product-name">{product.name}</span>
-
-              <span>
-                {formatPrice(product.price)} · stock {product.stock}
-              </span>
-
-              <button
-                type="button"
-                onClick={() => editProduct(product)}
-              >
-                Editar
-              </button>
-
-              <button
-                type="button"
-                onClick={() => onProductsChange(
-                  updateProduct(product.id, { stock: product.stock + 1 })
-                )}
-              >
-                + stock
-              </button>
-
-              <button
-                type="button"
-                className="remove-button"
-                onClick={() => onProductsChange(deleteProduct(product.id))}
-              >
-                Eliminar
-              </button>
-            </div>
-          ))}
-        </div>
+        <AdminForm
+          form={form}
+          editingId={editingId}
+          error={error}
+          onChange={setForm}
+          onSubmit={save}
+          onCancel={cancelEdit}
+        />
+        <AdminProductList products={products} onProductsChange={onProductsChange} onEdit={editProduct} />
       </div>
     </section>
   )

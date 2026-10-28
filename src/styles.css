@@ -48,6 +48,12 @@ button {
   text-align: left;
   background: none;
   border: 0;
+  text-decoration: none;
+}
+
+.brand:hover,
+.brand:focus-visible {
+  text-decoration: none;
 }
 
 .brand-logo {
@@ -80,6 +86,7 @@ nav {
 }
 
 nav button,
+nav a,
 .cart-button {
   color: inherit;
   font-size: 0.75rem;
@@ -87,11 +94,112 @@ nav button,
   text-transform: uppercase;
   background: none;
   border: 0;
+  text-decoration: none;
 }
 
-nav button:hover,
-.back-link:hover {
+nav a.active {
   text-decoration: underline;
+  text-underline-offset: 0.35rem;
+}
+
+.button-link {
+  display: inline-block;
+  padding: 0.8rem 1rem;
+  color: #191919;
+  font-weight: 800;
+  text-decoration: none;
+  text-transform: uppercase;
+  background: #f4f1eb;
+}
+
+.product-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: start;
+}
+
+.product-detail > img {
+  width: 100%;
+  max-height: 38rem;
+  padding: 1rem;
+  object-fit: contain;
+  background: #fff;
+}
+
+.product-detail-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.product-detail-info small {
+  color: #f4f1eb;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.product-detail-info h1 {
+  margin-bottom: 1.5rem;
+}
+
+.product-detail-info > strong {
+  font-size: 1.2rem;
+}
+
+.detail-add-button {
+  display: flex;
+  width: min(100%, 28rem);
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 1.2rem 1rem;
+  color: #f4f1eb;
+  font-size: 1.5rem;
+  text-align: left;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid #f4f1eb;
+}
+
+.detail-add-button:hover:not(:disabled) {
+  color: #e30613;
+  background: #f4f1eb;
+}
+
+.detail-add-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.product-info h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.product-info h3 a:hover,
+.product-info h3 a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+nav button:hover {
+  text-decoration: underline;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 1.2rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  text-decoration: none;
+  opacity: 0.7;
 }
 
 .cart-button span {
@@ -415,12 +523,6 @@ h2 {
   margin: auto;
 }
 
-.back-link {
-  color: inherit;
-  background: none;
-  border: 0;
-}
-
 .checkout-form,
 .admin-form {
   display: grid;
@@ -715,6 +817,10 @@ footer {
     order: 3;
     width: 100%;
     justify-content: space-between;
+  }
+
+  .product-detail {
+    grid-template-columns: 1fr;
   }
 
   .hero,

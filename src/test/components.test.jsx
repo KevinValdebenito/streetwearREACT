@@ -1,6 +1,8 @@
+
 import { describe, expect, it, vi } from 'vitest'
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { MemoryRouter } from 'react-router-dom'
 import { Admin } from '../components/Admin'
 import { Cart } from '../components/Cart'
 import { CustomerOrders } from '../components/CustomerOrders'
@@ -33,15 +35,14 @@ describe('autenticación y roles', () => {
   })
 
   it.each([
-    ['admin@valdeskate.cl', 'admin'],
-    ['empleado@valdeskate.cl', 'employee'],
-    ['cliente@valdeskate.cl', 'customer'],
+    ['admin@caos.cl', 'admin'],
+    ['empleado@caos.cl', 'employee'],
+    ['cliente@caos.cl', 'customer'],
   ])('identifica el rol de %s', async (email, role) => {
     const onLogin = vi.fn()
     render(<Login onLogin={onLogin} onBack={vi.fn()} />)
     await userEvent.type(screen.getByLabelText(/correo/i), email)
-    expect(screen.getByText(/perfil detectado/i)).toBeInTheDocument()
-    await userEvent.type(screen.getByLabelText(/contraseña/i), 'Valde2026!')
+    await userEvent.type(screen.getByLabelText(/contraseña/i), 'CAOS2026!')
     await userEvent.click(screen.getByRole('button', { name: 'Ingresar' }))
     expect(onLogin).toHaveBeenCalledWith({ email, role })
   })
@@ -51,12 +52,35 @@ describe('panel de administración', () => {
   it('crea un producto válido y reinicia el formulario', async () => {
     const onProductsChange = vi.fn()
     render(<Admin products={[product]} onProductsChange={onProductsChange} onLogout={vi.fn()} />)
-    await userEvent.type(screen.getByPlaceholderText('Ej: Polera Valde'), 'Polera nueva')
+    await userEvent.type(screen.getByPlaceholderText('Ej: Polera CAOS'), 'Polera nueva')
     await userEvent.clear(screen.getByPlaceholderText('Precio'))
     await userEvent.type(screen.getByPlaceholderText('Precio'), '25000')
     await userEvent.click(screen.getByRole('button', { name: 'Crear producto' }))
     expect(onProductsChange).toHaveBeenCalled()
-    expect(screen.getByPlaceholderText('Ej: Polera Valde')).toHaveValue('')
+    expect(screen.getByPlaceholderText('Ej: Polera CAOS')).toHaveValue('')
+  })
+
+  it('muestra un error cuando el producto no tiene nombre', async () => {
+    const onProductsChange = vi.fn()
+    render(<Admin products={[product]} onProductsChange={onProductsChange} onLogout={vi.fn()} />)
+    await userEvent.clear(screen.getByPlaceholderText('Precio'))
+    await userEvent.type(screen.getByPlaceholderText('Precio'), '25000')
+    await userEvent.click(screen.getByRole('button', { name: 'Crear producto' }))
+    expect(screen.getByRole('alert')).toHaveTextContent(/nombre es obligatorio/i)
+    expect(onProductsChange).not.toHaveBeenCalled()
+  })
+
+  it('permite marcar un producto como destacado', async () => {
+    const onProductsChange = vi.fn()
+    render(<Admin products={[product]} onProductsChange={onProductsChange} onLogout={vi.fn()} />)
+    await userEvent.type(screen.getByPlaceholderText('Ej: Polera CAOS'), 'Polera nueva')
+    await userEvent.clear(screen.getByPlaceholderText('Precio'))
+    await userEvent.type(screen.getByPlaceholderText('Precio'), '25000')
+    await userEvent.click(screen.getByLabelText(/ofertas y destacados/i))
+    await userEvent.click(screen.getByRole('button', { name: 'Crear producto' }))
+    expect(onProductsChange).toHaveBeenCalledWith(expect.arrayContaining([
+      expect.objectContaining({ featured: true })
+    ]))
   })
 
   it('permite aumentar stock y eliminar un producto', async () => {
@@ -65,6 +89,14 @@ describe('panel de administración', () => {
     await userEvent.click(screen.getByRole('button', { name: '+ stock' }))
     await userEvent.click(screen.getByRole('button', { name: 'Eliminar' }))
     expect(onProductsChange).toHaveBeenCalledTimes(2)
+  })
+
+  it('cancela la eliminación si no se confirma', async () => {
+    const onProductsChange = vi.fn()
+    vi.spyOn(window, 'confirm').mockReturnValue(false)
+    render(<Admin products={[product]} onProductsChange={onProductsChange} onLogout={vi.fn()} />)
+    await userEvent.click(screen.getByRole('button', { name: 'Eliminar' }))
+    expect(onProductsChange).not.toHaveBeenCalled()
   })
 })
 
@@ -103,28 +135,23 @@ describe('vistas y componentes de navegación', () => {
     expect(onSearch).toHaveBeenCalledWith('')
   })
 
-  it('muestra ofertas y aplica el filtro de búsqueda', async () => {
-    const expensive = { ...product, id: 2, name: 'Hoodie caro', price: 50000 }
-    render(<Catalog mode="offers" products={[product, expensive]} categories={['Todas', 'Tablas']} category="Todas" search="" onSearch={vi.fn()} onCategory={vi.fn()} onAdd={vi.fn()} />)
+  it('muestra solo productos destacados en ofertas', () => {
+    const expensive = { ...product, id: 4, name: 'Hoodie caro', price: 50000, featured: false }
+    render(<MemoryRouter><Catalog mode="offers" products={[product, expensive]} categories={['Todas', 'Tablas']} category="Todas" search="" onSearch={vi.fn()} onCategory={vi.fn()} onAdd={vi.fn()} /></MemoryRouter>)
     expect(screen.getByText('Tabla de prueba')).toBeInTheDocument()
     expect(screen.queryByText('Hoodie caro')).not.toBeInTheDocument()
   })
 
   it('permite volver al inicio desde el encabezado', async () => {
-    const onNavigate = vi.fn()
-    render(<Header cartCount={2} onNavigate={onNavigate} user={null} />)
-    await userEvent.click(screen.getByRole('button', { name: 'Ir al inicio' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Ingresar' }))
-    expect(onNavigate).toHaveBeenNthCalledWith(1, 'home')
-    expect(onNavigate).toHaveBeenNthCalledWith(2, 'login')
+    render(<MemoryRouter><Header cartCount={2} user={null} /></MemoryRouter>)
+    expect(screen.getByRole('link', { name: 'Ir al inicio' })).toHaveAttribute('href', '/')
+    expect(screen.getByRole('link', { name: 'Ingresar' })).toHaveAttribute('href', '/login')
     expect(screen.getByLabelText(/abrir carrito/i)).toHaveTextContent('2')
   })
 
   it('navega a productos desde la portada', async () => {
-    const onNavigate = vi.fn()
-    render(<Home products={[product]} onAdd={vi.fn()} onNavigate={onNavigate} />)
-    await userEvent.click(screen.getByRole('button', { name: /explorar productos/i }))
-    expect(onNavigate).toHaveBeenCalledWith('products')
+    render(<MemoryRouter><Home products={[product]} onAdd={vi.fn()} /></MemoryRouter>)
+    expect(screen.getByRole('link', { name: /explorar productos/i })).toHaveAttribute('href', '/productos')
   })
 })
 
