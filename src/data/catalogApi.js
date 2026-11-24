@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 const baseURL = import.meta.env.VITE_CATALOG_API_URL
 export const apiCatalogEnabled = Boolean(baseURL)
-const api = axios.create({ baseURL, timeout: 8000 })
+export const api = axios.create({ baseURL, timeout: 8000 })
 
 export function useApiCatalog() {
   const [catalog, setCatalog] = useState({

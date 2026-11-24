@@ -1,6 +1,7 @@
 
 import { useState } from 'react'
-import { createProduct, updateProduct } from '../data/products'
+import { createProduct, deleteProduct, updateProduct } from '../data/products'
+import { deleteApiProduct, saveApiProduct } from '../data/storeApi'
 import { AdminForm } from './AdminForm'
 import { AdminProductList } from './AdminProductList'
 
@@ -13,14 +14,35 @@ const empty = {
   featured: false
 }
 
-export function Admin({ products, onProductsChange, onLogout }) {
+export function Admin({ products, onProductsChange, onLogout, token, onApiChange }) {
   const [form, setForm] = useState(empty)
   const [editingId, setEditingId] = useState(null)
   const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
 
+  const changeProduct = async (apiAction, localAction) => {
+    setError('')
+    if (!token) {
+      onProductsChange(localAction())
+      return true
+    }
+    setBusy(true)
+    try {
+      await apiAction()
+      onApiChange()
+      return true
+    } catch (failure) {
+      if (failure.response?.status === 401) onLogout()
+      setError('No pudimos guardar el cambio en el catálogo.')
+      return false
+    } finally {
+      setBusy(false)
+    }
+  }
 
-  const save = (event) => {
+  const save = async (event) => {
     event.preventDefault()
+    if (busy) return
 
     if (!form.name.trim()) {
       setError('El nombre es obligatorio.')
@@ -46,14 +68,10 @@ export function Admin({ products, onProductsChange, onLogout }) {
       stock: Number(form.stock)
     }
 
-    if (editingId !== null) {
-      onProductsChange(updateProduct(editingId, productData))
-    } else {
-      onProductsChange(createProduct(productData))
-    }
-
-    setForm(empty)
-    setEditingId(null)
+    if (await changeProduct(
+      () => saveApiProduct(token, editingId, productData),
+      () => editingId === null ? createProduct(productData) : updateProduct(editingId, productData)
+    )) cancelEdit()
   }
 
   const editProduct = (product) => {
@@ -91,11 +109,23 @@ export function Admin({ products, onProductsChange, onLogout }) {
           form={form}
           editingId={editingId}
           error={error}
+          busy={busy}
           onChange={setForm}
           onSubmit={save}
           onCancel={cancelEdit}
         />
-        <AdminProductList products={products} onProductsChange={onProductsChange} onEdit={editProduct} />
+        <AdminProductList products={products} busy={busy} onEdit={editProduct}
+          onStock={(product) => changeProduct(
+            () => saveApiProduct(token, product.id, {
+              name: product.name, category: product.category, price: product.price,
+              stock: product.stock + 1, image: product.image, featured: product.featured
+            }),
+            () => updateProduct(product.id, { stock: product.stock + 1 })
+          )}
+          onDelete={async (id) => {
+            const deleted = await changeProduct(() => deleteApiProduct(token, id), () => deleteProduct(id))
+            if (deleted && editingId === id) cancelEdit()
+          }} />
       </div>
     </section>
   )

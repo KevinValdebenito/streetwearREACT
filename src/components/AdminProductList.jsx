@@ -1,7 +1,6 @@
-import { deleteProduct, updateProduct } from '../data/products'
 import { formatPrice } from '../utils/format'
 
-export function AdminProductList({ products, onProductsChange, onEdit }) {
+export function AdminProductList({ products, busy, onEdit, onStock, onDelete }) {
   return (
     <div className="admin-list">
       <h2>Productos existentes <span>({products.length})</span></h2>
@@ -9,14 +8,15 @@ export function AdminProductList({ products, onProductsChange, onEdit }) {
         <div className="admin-row" key={product.id}>
           <span className="admin-product-name">{product.name}</span>
           <span>{formatPrice(product.price)} · stock {product.stock}</span>
-          <button type="button" onClick={() => onEdit(product)}>Editar</button>
-          <button type="button" onClick={() => onProductsChange(updateProduct(product.id, { stock: product.stock + 1 }))}>+ stock</button>
+          <button type="button" disabled={busy} onClick={() => onEdit(product)}>Editar</button>
+          <button type="button" disabled={busy} onClick={() => onStock(product)}>+ stock</button>
           <button
             type="button"
             className="remove-button"
+            disabled={busy}
             onClick={() => {
               if (window.confirm(`¿Eliminar ${product.name}?`)) {
-                onProductsChange(deleteProduct(product.id))
+                onDelete(product.id)
               }
             }}
           >

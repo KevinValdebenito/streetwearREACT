@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom'
 import { Header } from './components/Header'
 import { getProducts, updateProduct } from './data/products'
 import { apiCatalogEnabled, useApiCatalog } from './data/catalogApi'
+import { loadSession } from './data/storeApi'
 import { getOrders, ORDERS_KEY, saveOrders, updateOrderStatus } from './data/orders'
 import { readStorage, removeStorage, writeStorage } from './data/storage'
 import { AdminPage } from './pages/Admin'
@@ -20,6 +21,7 @@ import { ProductDetailPage } from './pages/ProductDetail'
 import { ProtectedRoute } from './routes/ProtectedRoute'
 
 const cartKey = apiCatalogEnabled ? 'CAOS-api-cart' : 'CAOS-cart'
+const userKey = apiCatalogEnabled ? 'CAOS-api-token' : 'CAOS-user'
 
 export default function App() {
   const [localProducts, setProducts] = useState(getProducts)
@@ -29,8 +31,26 @@ export default function App() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('Todas')
   const [order, setOrder] = useState(null)
-  const [user, setUser] = useState(() => readStorage('CAOS-user', null))
+  const [restoreToken] = useState(() => apiCatalogEnabled ? readStorage(userKey, null) : null)
+  const [restoringSession, setRestoringSession] = useState(Boolean(restoreToken))
+  const [user, setUser] = useState(() => apiCatalogEnabled ? null : readStorage(userKey, null))
   const [orders, setOrders] = useState(getOrders)
+
+  useEffect(() => {
+    if (!restoreToken) return
+    const controller = new AbortController()
+    loadSession(restoreToken, controller.signal)
+      .then((session) => {
+        if (!controller.signal.aborted) setUser(session)
+      })
+      .catch((error) => {
+        if (!controller.signal.aborted && error.response?.status === 401) removeStorage(userKey)
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setRestoringSession(false)
+      })
+    return () => controller.abort()
+  }, [restoreToken])
 
   useEffect(() => {
     writeStorage(cartKey, cart)
@@ -88,7 +108,7 @@ export default function App() {
 
   const logout = () => {
     setUser(null)
-    removeStorage('CAOS-user')
+    removeStorage(userKey)
   }
 
   const changeOrderStatus = (id, status) => {
@@ -139,6 +159,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      {restoringSession ? <p role="status">Restaurando sesión…</p> :
       <StoreRoutes
         products={products}
         localProducts={localProducts}
@@ -157,11 +178,11 @@ export default function App() {
         changeQuantity={changeQuantity}
         setProducts={setProducts}
         setUser={setUser}
-        saveUser={(nextUser) => writeStorage('CAOS-user', nextUser)}
+        saveUser={(nextUser) => writeStorage(userKey, apiCatalogEnabled ? nextUser.token : nextUser)}
         logout={logout}
         changeOrderStatus={changeOrderStatus}
         completeOrder={completeOrder}
-      />
+      />}
     </BrowserRouter>
   )
 }
@@ -247,7 +268,10 @@ function StoreRoutes({
             : <CheckoutPage items={cart} initialEmail={user?.email} onComplete={completeOrder} />} />
           <Route path="/resultado" element={<ResultPage order={order} />} />
           <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
-          <Route path="/admin" element={<ProtectedRoute user={user} role="admin"><AdminPage products={localProducts} onProductsChange={setProducts} onLogout={logout} /></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute user={user} role="admin">
+            <AdminPage products={apiCatalogEnabled ? products : localProducts}
+              onProductsChange={setProducts} token={user?.token} onApiChange={catalog.retry} onLogout={logout} />
+          </ProtectedRoute>} />
           <Route path="/pedidos" element={<ProtectedRoute user={user} role="employee"><EmployeePage orders={orders} onUpdateStatus={changeOrderStatus} onLogout={logout} /></ProtectedRoute>} />
           <Route path="/mi-cuenta" element={<ProtectedRoute user={user} role="customer"><CustomerOrdersPage orders={orders} email={user?.email} onLogout={logout} /></ProtectedRoute>} />
           <Route path="*" element={<NotFoundPage />} />
