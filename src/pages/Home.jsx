@@ -2,7 +2,7 @@ import { ProductGrid } from '../components/ProductGrid'
 import { UrbanCarousel } from '../components/UrbanCarousel'
 import { Link } from 'react-router-dom'
 
-export function Home({ products, onAdd }) {
+export function Home({ products, onAdd, renderFeatured = (grid) => grid }) {
   return (
     <>
       <UrbanCarousel />
@@ -17,7 +17,7 @@ export function Home({ products, onAdd }) {
       </section>
       <section className="content-section">
         <div className="section-heading"><span>02 / DESTACADOS</span><h2>Lo que está rodando.</h2></div>
-        <ProductGrid products={products.filter((product) => product.featured)} onAdd={onAdd} />
+        {renderFeatured(<ProductGrid products={products.filter((product) => product.featured)} onAdd={onAdd} />)}
       </section>
       <section className="editorial">
         <h2>Camina lento<br /><em>pero con paso firme </em></h2>
