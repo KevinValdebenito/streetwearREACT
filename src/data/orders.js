@@ -1,6 +1,6 @@
 import { readStorage, writeStorage } from './storage'
 
-export const ORDERS_KEY = 'valde-orders'
+export const ORDERS_KEY = 'CAOS-orders'
 
 export function getOrders() {
   return readStorage(ORDERS_KEY, [])

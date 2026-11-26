@@ -12,7 +12,7 @@ const seedProducts = [
   { id: 11, name: 'Vans Skate Blancas y Celestes', category: 'Calzado', price: 67990, stock: 5, image: '/img/productos/zapatillas-vans-blancas-celestes.webp', featured: true }
 ]
 
-const STORAGE_KEY = 'valde-products-v2'
+const STORAGE_KEY = 'CAOS-products-v2'
 
 
 export function getProducts() {

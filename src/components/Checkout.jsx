@@ -1,6 +1,7 @@
 
 import { useState } from 'react'
-import { formatPrice } from '../utils/format'
+import { CheckoutForm } from './CheckoutForm'
+import { OrderSummary } from './OrderSummary'
 
 export function Checkout({ items, onComplete, onBack, initialEmail = '' }) {
   const [form, setForm] = useState({
@@ -57,54 +58,8 @@ export function Checkout({ items, onComplete, onBack, initialEmail = '' }) {
         <h1>Finalizar compra</h1>
       </div>
 
-      {error && <p className="error-message" role="alert">{error}</p>}
-
-      <form className="checkout-form" onSubmit={submit}>
-        <label>
-          Nombre completo
-          <input
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-          />
-        </label>
-
-        <label>
-          Correo electrónico
-          <input
-            type="email"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-          />
-        </label>
-
-        <label>
-          Dirección de envío
-          <textarea
-            value={form.address}
-            onChange={(e) => setForm({ ...form, address: e.target.value })}
-          />
-        </label>
-
-        <label>
-          Tipo de entrega
-          <select
-            value={form.delivery}
-            onChange={(e) => setForm({ ...form, delivery: e.target.value })}
-          >
-            <option value="normal">Envío normal (3-5 días)</option>
-            <option value="express">Envío express (24 horas)</option>
-          </select>
-        </label>
-
-        <div className="checkout-total">
-          <span>Total a pagar</span>
-          <strong>{formatPrice(total)}</strong>
-        </div>
-
-        <button type="submit">
-          Pagar y confirmar compra
-        </button>
-      </form>
+      <CheckoutForm form={form} onChange={setForm} onSubmit={submit} error={error} />
+      <OrderSummary total={total} />
     </section>
   )
 }

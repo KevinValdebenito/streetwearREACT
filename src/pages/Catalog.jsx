@@ -13,10 +13,8 @@ export function Catalog({ products, categories, category, search, onSearch, onCa
     )
   }
 
-  const offerIds = [1, 2, 3]
-
   const listedProducts = mode === 'offers'
-    ? products.filter((product) => offerIds.includes(product.id))
+    ? products.filter((product) => product.featured)
     : products
 
   const filteredProducts = mode === 'offers'

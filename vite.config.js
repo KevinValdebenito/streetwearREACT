@@ -8,7 +8,13 @@ export default defineConfig({
     setupFiles: './src/test/setup.js',
     coverage: {
       reporter: ['text', 'html'],
-      exclude: ['src/test/**']
+      exclude: [
+        'src/test/**',
+        'dist/**',
+        'coverage/**',
+        'vite.config.js',
+        'src/main.jsx'
+      ]
     }
   }
 })

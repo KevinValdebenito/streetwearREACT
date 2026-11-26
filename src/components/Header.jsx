@@ -1,11 +1,21 @@
 
-export function Header({ cartCount, onNavigate, user }) {
+import { NavLink } from 'react-router-dom'
+
+export function Header({ cartCount, user }) {
+  const accountPath = user
+    ? user.role === 'admin'
+      ? '/admin'
+      : user.role === 'employee'
+        ? '/pedidos'
+        : '/mi-cuenta'
+    : '/login'
+
   return (
     <header className="site-header">
-      <button className="brand" onClick={() => onNavigate('home')} aria-label="Ir al inicio">
+      <NavLink className="brand" to="/" aria-label="Ir al inicio">
       <video
         className="brand-logo"
-        src="/img/branding/logo-valde-transparente.webm"
+        src="/img/branding/logo-CAOS-transparente.webm"
         autoPlay
         muted
         loop
@@ -16,19 +26,19 @@ export function Header({ cartCount, onNavigate, user }) {
           <strong>يسير ببطء ولكن بثبات.</strong>
           <small>Explora nuestro universo de skate y streetwear</small>
         </span>
-      </button>
+      </NavLink>
       <nav aria-label="Navegación principal">
-        <button onClick={() => onNavigate('home')}>Inicio</button>
-        <button onClick={() => onNavigate('products')}>Productos</button>
-        <button onClick={() => onNavigate('categories')}>Categorías</button>
-        <button onClick={() => onNavigate('offers')}>Ofertas</button>
-        <button onClick={() => onNavigate(user ? user.role : 'login')}>
+        <NavLink to="/">Inicio</NavLink>
+        <NavLink to="/productos">Productos</NavLink>
+        <NavLink to="/categorias">Categorías</NavLink>
+        <NavLink to="/ofertas">Ofertas</NavLink>
+        <NavLink to={accountPath}>
           {user ? (user.role === 'admin' ? 'Administración' : user.role === 'employee' ? 'Pedidos' : 'Mi cuenta') : 'Ingresar'}
-        </button>
+        </NavLink>
       </nav>
-      <button className="cart-button" onClick={() => onNavigate('cart')} aria-label="Abrir carrito">
+      <NavLink className="cart-button" to="/carrito" aria-label="Abrir carrito">
         Carrito <span>{cartCount}</span>
-      </button>
+      </NavLink>
     </header>
   )
 }

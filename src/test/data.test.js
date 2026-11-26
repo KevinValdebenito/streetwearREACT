@@ -12,6 +12,12 @@ describe('persistencia local', () => {
     removeStorage('test-key')
     expect(readStorage('test-key', 'fallback')).toBe('fallback')
   })
+
+  it('recupera el valor alternativo si el JSON está corrupto', () => {
+    localStorage.setItem('corrupt-key', '{invalid')
+    expect(readStorage('corrupt-key', 'fallback')).toBe('fallback')
+    expect(localStorage.getItem('corrupt-key')).toBeNull()
+  })
 })
 
 describe('catálogo de productos', () => {

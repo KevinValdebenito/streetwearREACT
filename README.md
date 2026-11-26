@@ -1,7 +1,4 @@
-# StreetWear Skate Store
-
-https://streetwearreact.vercel.app/
-Tienda online migrada desde HTML/CSS a React con Vite para la Evaluación Parcial 2 de DSY1104.
+# CAOS Skate Store
 
 ## Funcionalidades
 
@@ -12,6 +9,11 @@ Tienda online migrada desde HTML/CSS a React con Vite para la Evaluación Parcia
 - Login general por correo con perfiles de administrador, empleado y cliente.
 - Panel de empleado para revisar y actualizar el estado de pedidos.
 - Historial de compras para clientes.
+- Navegación con rutas mediante React Router.
+- Enlaces activos con `NavLink`, página 404 y detalle dinámico en `/productos/:id`.
+- Rutas privadas centralizadas mediante `ProtectedRoute`.
+- Pantallas grandes divididas en subcomponentes reutilizables (`AdminForm`, `AdminProductList`, `CartItem`, `CartSummary`, `CheckoutForm` y `OrderSummary`).
+- Confirmación antes de eliminar artículos o productos.
 
 ## Estructura principal
 
@@ -33,8 +35,8 @@ src/
 ## Calidad
 
 Diseño responsive para móvil, tablet y escritorio.
-33 pruebas con Vitest y Testing Library, todas aprobadas.
-Cobertura real: 86,04 % statements, 83,43 % branches, 74,68 % funciones, 86,04 % líneas. Detalle en DOCUMENTO-COBERTURA-TESTING.md.
+43 pruebas con Vitest y Testing Library, todas aprobadas.
+Cobertura real: 90,79 % statements, 84,26 % branches, 75 % funciones, 90,79 % líneas. Detalle en DOCUMENTO-COBERTURA-TESTING.md.
 Requisitos y arquitectura en ERS-V2.md.
 
 ## Comandos
@@ -49,14 +51,17 @@ npm run build
 
 ## Despliegue
 
-Publicado en Vercel con el preset Vite (comando de build npm run build, directorio de salida dist).
+La aplicación está publicada en Vercel:
+
+https://streetwear-react.vercel.app
+
 
 ## Accesos demo
 
-- Correo: `admin@valdeskate.cl`
-- Perfil: administrador
-- Correo: `empleado@valdeskate.cl`
-- Perfil: empleado
-- Correo: `cliente@valdeskate.cl`
-- Perfil: cliente
-- Contraseña: `Valde2026!`
+Correo: admin@caos.cl
+Perfil: administrador
+Correo: empleado@caos.cl
+Perfil: empleado
+Correo: cliente@caos.cl
+Perfil: cliente
+Contraseña: CAOS2026!

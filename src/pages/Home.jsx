@@ -1,7 +1,8 @@
 import { ProductGrid } from '../components/ProductGrid'
 import { UrbanCarousel } from '../components/UrbanCarousel'
+import { Link } from 'react-router-dom'
 
-export function Home({ products, onAdd, onNavigate }) {
+export function Home({ products, onAdd }) {
   return (
     <>
       <UrbanCarousel />
@@ -10,7 +11,7 @@ export function Home({ products, onAdd, onNavigate }) {
           <span>01 / SKATE CO.</span>
           <h1>El caos<br /><em>es nuestro.</em></h1>
           <p>Skate, diseño y actitud urbana desde Chile.</p>
-          <button onClick={() => onNavigate('products')}>Explorar productos →</button>
+          <Link className="button-link" to="/productos">Explorar productos →</Link>
         </div>
         <img src="/img/branding/nyc-skyline.jpg" alt="Silueta urbana de Nueva York" />
       </section>
