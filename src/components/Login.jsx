@@ -1,5 +1,7 @@
 
 import { useState } from 'react'
+import { apiCatalogEnabled } from '../data/catalogApi'
+import { login } from '../data/storeApi'
 
 const DEMO_PASSWORD = 'CAOS2026!'
 
@@ -19,11 +21,26 @@ const roleNames = {
 export function Login({ onLogin, onBack }) {
   const [credentials, setCredentials] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
 
   const role = getRole(credentials.email.trim().toLowerCase())
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault()
+    if (apiCatalogEnabled) {
+      setError('')
+      setBusy(true)
+      try {
+        onLogin(await login(credentials))
+      } catch (failure) {
+        setError(failure.response?.status === 401
+          ? 'El correo o la contraseña no son correctos.'
+          : 'No pudimos iniciar sesión. Inténtalo de nuevo.')
+      } finally {
+        setBusy(false)
+      }
+      return
+    }
 
     if (!role || credentials.password !== DEMO_PASSWORD) {
       setError('El correo o la contraseña no son correctos.')
@@ -40,9 +57,9 @@ export function Login({ onLogin, onBack }) {
         <span>06 / ACCESO GENERAL</span>
         <h1>Tu cuenta<br /><em>CAOS.</em></h1>
 
-        <p>El correo identifica si eres administrador, empleado o cliente.</p>
+        <p>{apiCatalogEnabled ? 'Ingresa con tu cuenta de CAOS.' : 'El correo identifica si eres administrador, empleado o cliente.'}</p>
 
-        {role && (
+        {!apiCatalogEnabled && role && (
           <p className="role-preview">
             Perfil detectado: <strong>{roleNames[role]}</strong>
           </p>
@@ -71,18 +88,18 @@ export function Login({ onLogin, onBack }) {
             />
           </label>
 
-          <button type="submit">Ingresar</button>
+          <button type="submit" disabled={busy}>Ingresar</button>
         </form>
 
         <button className="back-link" onClick={onBack}>
           ← Volver a la tienda
         </button>
 
-        <small className="demo-credentials">
+        {!apiCatalogEnabled && <small className="demo-credentials">
           Admin: admin@caos.cl · Empleado: empleado@caos.cl · Cliente: cliente@caos.cl
           <br />
           Contraseña demo: CAOS2026!
-        </small>
+        </small>}
       </div>
     </section>
   )

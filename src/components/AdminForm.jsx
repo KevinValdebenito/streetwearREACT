@@ -1,4 +1,4 @@
-export function AdminForm({ form, editingId, error, onChange, onSubmit, onCancel }) {
+export function AdminForm({ form, editingId, error, busy, onChange, onSubmit, onCancel }) {
   return (
     <form className="admin-form" onSubmit={onSubmit}>
       <h2>{editingId !== null ? 'Editar producto' : 'Nuevo producto'}</h2>
@@ -33,8 +33,8 @@ export function AdminForm({ form, editingId, error, onChange, onSubmit, onCancel
         <input type="checkbox" checked={form.featured} onChange={(e) => onChange({ ...form, featured: e.target.checked })} />
         Mostrar en ofertas y destacados
       </label>
-      <button type="submit">{editingId !== null ? 'Guardar cambios' : 'Crear producto'}</button>
-      {editingId !== null && <button type="button" onClick={onCancel}>Cancelar edición</button>}
+      <button type="submit" disabled={busy}>{editingId !== null ? 'Guardar cambios' : 'Crear producto'}</button>
+      {editingId !== null && <button type="button" disabled={busy} onClick={onCancel}>Cancelar edición</button>}
     </form>
   )
 }
