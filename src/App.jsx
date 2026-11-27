@@ -11,6 +11,8 @@ import { AdminPage } from './pages/Admin'
 import { CartPage } from './pages/Cart'
 import { Catalog } from './pages/Catalog'
 import { CheckoutPage } from './pages/Checkout'
+import { ContactPage } from './pages/Contact'
+import { ContactInboxPage } from './pages/ContactInbox'
 import { CustomerOrdersPage } from './pages/CustomerOrders'
 import { EmployeePage } from './pages/Employee'
 import { Home } from './pages/Home'
@@ -268,6 +270,10 @@ function StoreRoutes({
             : <CheckoutPage items={cart} initialEmail={user?.email} onComplete={completeOrder} />} />
           <Route path="/resultado" element={<ResultPage order={order} />} />
           <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
+          <Route path="/contacto" element={<ContactPage />} />
+          <Route path="/admin/mensajes" element={<ProtectedRoute user={user} role="admin">
+            <ContactInboxPage token={user?.token} />
+          </ProtectedRoute>} />
           <Route path="/admin" element={<ProtectedRoute user={user} role="admin">
             <AdminPage products={apiCatalogEnabled ? products : localProducts}
               onProductsChange={setProducts} token={user?.token} onApiChange={catalog.retry} onLogout={logout} />

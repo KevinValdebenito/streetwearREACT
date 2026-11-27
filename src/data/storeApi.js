@@ -23,3 +23,12 @@ export function saveApiProduct(token, id, product) {
 export function deleteApiProduct(token, id) {
   return api.delete(`/products/${id}`, bearer(token))
 }
+
+export function sendContactMessage(message) {
+  return api.post('/api/contact', message)
+}
+
+export async function listContactMessages(token, signal) {
+  const { data } = await api.get('/api/contact', { ...bearer(token), signal })
+  return data
+}

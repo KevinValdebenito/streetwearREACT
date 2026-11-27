@@ -32,6 +32,7 @@ export function Header({ cartCount, user }) {
         <NavLink to="/productos">Productos</NavLink>
         <NavLink to="/categorias">Categorías</NavLink>
         <NavLink to="/ofertas">Ofertas</NavLink>
+        <NavLink to="/contacto">Contacto</NavLink>
         <NavLink to={accountPath}>
           {user ? (user.role === 'admin' ? 'Administración' : user.role === 'employee' ? 'Pedidos' : 'Mi cuenta') : 'Ingresar'}
         </NavLink>
