@@ -588,6 +588,57 @@ h2 {
 }
 
 /* Administration and account */
+.contact-form button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.contact-confirmation {
+  width: min(80rem, calc(100% - 2rem), max(32rem, 68vw));
+  max-height: calc(100% - 2rem);
+  padding: clamp(2rem, 6vw, 6rem) clamp(1rem, 4vw, 4rem);
+  color: #e30613;
+  text-align: left;
+  background: #f4f1eb;
+  border: 0;
+  border-top: 0.5rem solid #e30613;
+}
+
+.contact-confirmation::backdrop {
+  background: rgb(0 0 0 / 60%);
+}
+
+.contact-confirmation h2 {
+  margin: 0 0 clamp(1.75rem, 4.5vw, 5rem);
+  font-size: clamp(2.5rem, 8vw, 9rem);
+  line-height: 0.95;
+}
+
+.contact-confirmation button {
+  min-width: min(100%, clamp(9rem, 14vw, 17rem));
+  max-width: 100%;
+  padding: clamp(0.9rem, 1.5vw, 1.5rem) 1.5rem;
+  color: #fff;
+  font-size: clamp(1rem, 2vw, 2rem);
+  background: #e30613;
+  border: 0;
+}
+
+.contact-confirmation button:hover {
+  background: #bc0510;
+}
+
+.contact-message {
+  margin-block: 1rem;
+  padding: 1rem;
+  border: 1px solid currentColor;
+  overflow-wrap: anywhere;
+}
+
+.contact-message-body {
+  white-space: pre-wrap;
+}
+
 .admin-page {
   padding: 4rem 8vw;
   color: #f4f1eb;
@@ -604,6 +655,15 @@ h2 {
 .admin-header h1 {
   margin: 0.5rem 0 0;
   font-size: clamp(3rem, 7vw, 6rem);
+}
+
+.contact-inbox .admin-header h1 {
+  font-size: clamp(2.5rem, 5.8vw, 5rem);
+}
+
+.contact-message h2 {
+  font-size: clamp(2.25rem, 5.5vw, 5.5rem);
+  line-height: 0.95;
 }
 
 .admin-logout {
